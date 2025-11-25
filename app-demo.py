@@ -16,24 +16,29 @@ if uploaded_file is not None:
 
     st.success("File uploaded successfully!")
 
+    # Preview of the dataset
     st.write("### Preview of the Dataset")
     st.subheader("First Few Data Samples")
     st.dataframe(df.head())
     st.subheader("Last Few Data Samples")
     st.dataframe(df.tail())
 
-    # Example chart
-    st.subheader("Admissions per Month")
+    # Step 3: Statistical summary
+    st.subheader("Statistical Summary")
+    st.dataframe(df.describe())
 
-    # Create aggregated Count value from dataset
+    # Calculate and visualize admissions per month
+    st.subheader("Admissions per Month")
     if "month year" in df.columns:
         monthly = df.groupby("month year").size()
 
+        # Create a line chart
         fig, ax = plt.subplots()
-        monthly.plot(ax=ax)
+        monthly.plot(ax=ax, marker='o')
         ax.set_ylabel("Number of Admissions")
         ax.set_xlabel("Month - Year")
         ax.set_title("Admissions Over Time")
+        plt.xticks(rotation=45)
 
         st.pyplot(fig)
     else:
